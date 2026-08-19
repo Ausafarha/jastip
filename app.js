@@ -9,7 +9,7 @@ const productsData = [
     // --- Ikan Marinasi (READY PO) ---
     {
         id: 1,
-        category: 'lele',
+        category: 'marinasi',
         name: 'Ikan Marinasi Segar (Isi 3)',
         desc: 'Siap goreng, bumbu marinasi meresap gurih.',
         price: 12000,
@@ -19,7 +19,7 @@ const productsData = [
     },
     {
         id: 2,
-        category: 'lele',
+        category: 'marinasi',
         name: 'Ikan Marinasi Segar (Isi 5)',
         desc: 'Isi 5 ekor, porsi pas untuk keluarga.',
         price: 19000,
@@ -29,7 +29,7 @@ const productsData = [
     },
     {
         id: 10,
-        category: 'lele',
+        category: 'marinasi',
         name: 'Nila Marinasi Segar',
         desc: 'Ikan nila segar dibumbui marinasi spesial, daging tebal dan gurih.',
         price: 8000,
