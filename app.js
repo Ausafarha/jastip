@@ -6,12 +6,12 @@ const ADMIN_PHONE = "6285866692986";
 
 // Master Data Produk
 const productsData = [
-    // --- LELE MARINASI (READY PO) ---
+    // --- Ikan Marinasi (READY PO) ---
     {
         id: 1,
         category: 'lele',
-        name: 'Lele Marinasi Segar (Isi 3)',
-        desc: 'Ukuran besar, siap goreng, bumbu marinasi meresap gurih.',
+        name: 'Ikan Marinasi Segar (Isi 3)',
+        desc: 'Siap goreng, bumbu marinasi meresap gurih.',
         price: 12000,
         unit: 'pack',
         status: 'READY PO',
@@ -20,12 +20,22 @@ const productsData = [
     {
         id: 2,
         category: 'lele',
-        name: 'Lele Marinasi Segar (Isi 5)',
-        desc: 'Ukuran sedang isi 5 ekor, porsi pas untuk keluarga.',
+        name: 'Ikan Marinasi Segar (Isi 5)',
+        desc: 'Isi 5 ekor, porsi pas untuk keluarga.',
         price: 19000,
         unit: 'pack',
         status: 'READY PO',
         image: 'assets/images/lele.jpg'
+    },
+    {
+        id: 10,
+        category: 'lele',
+        name: 'Nila Marinasi Segar',
+        desc: 'Ikan nila segar dibumbui marinasi spesial, daging tebal dan gurih.',
+        price: 30000,
+        unit: 'pack',
+        status: 'READY PO',
+        image: 'assets/images/nila.jpg'
     },
 
     // --- MELON HIDROPONIK (COMING SOON) ---
@@ -33,7 +43,7 @@ const productsData = [
         id: 3,
         category: 'melon',
         name: 'Melon Hidroponik Jaring (Net)',
-        desc: 'Melon net manis renyah premium, hasil kebun hidroponik lokal.',
+        desc: 'Melon net manis renyah premium, hasil kebun hidroponik lokal, dengan kemanisan di atas 13brix',
         price: 45000,
         unit: 'kg',
         status: 'COMING SOON',
