@@ -157,7 +157,7 @@ function renderProducts(category) {
             <article class="${cardClass}">
                 <div class="card-image-wrapper">
                     <span class="${badgeClass}">${product.status}</span>
-                    <img src="${product.image}" alt="${product.name}" class="product-img" loading="lazy">
+                    <img src="${product.image}" alt="${product.name}" class="product-img" loading="lazy" onclick="openImageModal('${product.image}', '${product.name}')">
                 </div>
                 <div class="card-body">
                     <h4 class="product-title">${product.name}</h4>
@@ -309,4 +309,21 @@ function formatRupiah(number) {
         currency: 'IDR',
         maximumFractionDigits: 0
     }).format(number);
+}
+
+/**
+ * Helper Fungsi Popup Modal Gambar
+ */
+function openImageModal(imageSrc, title) {
+    const modal = document.getElementById('image-modal');
+    const modalImg = document.getElementById('modal-img-target');
+    const captionText = document.getElementById('modal-caption');
+
+    modal.style.display = 'block';
+    modalImg.src = imageSrc;
+    captionText.textContent = title;
+}
+
+function closeImageModal() {
+    document.getElementById('image-modal').style.display = 'none';
 }
