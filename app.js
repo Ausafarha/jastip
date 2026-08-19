@@ -32,8 +32,8 @@ const productsData = [
         category: 'lele',
         name: 'Nila Marinasi Segar',
         desc: 'Ikan nila segar dibumbui marinasi spesial, daging tebal dan gurih.',
-        price: 30000,
-        unit: 'pack',
+        price: 8000,
+        unit: 'ekor',
         status: 'READY PO',
         image: 'assets/images/nila.jpg'
     },
