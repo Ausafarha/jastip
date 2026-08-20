@@ -142,24 +142,37 @@ function renderProducts(category) {
     const productGrid = document.getElementById('product-grid');
     productGrid.innerHTML = '';
 
-    // Filter Data
     const filteredProducts = category === 'all' 
         ? productsData 
         : productsData.filter(p => p.category === category);
 
-    // Render HTML Cards
     filteredProducts.forEach(product => {
         const isReady = product.status === 'READY PO';
         const cardClass = isReady ? 'product-card' : 'product-card disabled';
         const badgeClass = isReady ? 'badge-status ready' : 'badge-status coming-soon';
         
+        // Buat Opsi Dropdown Varian
+        let variantOptionsHTML = '';
+        product.variants.forEach((variant, index) => {
+            variantOptionsHTML += `<option value="${index}">${variant.name} - ${formatRupiah(variant.price)}</option>`;
+        });
+
         const actionButton = isReady 
-            ? `<button class="btn btn-primary btn-block" onclick="addToCart(${product.id})">
+            ? `<div class="variant-select-group">
+                <label for="variant-${product.id}">Pilih Varian/Ukuran:</label>
+                <select id="variant-${product.id}" class="variant-dropdown" onchange="updateCardPrice(${product.id})">
+                    ${variantOptionsHTML}
+                </select>
+               </div>
+               <button class="btn btn-primary btn-block" onclick="addToCartWithVariant(${product.id})">
                 🛒 Tambah ke Keranjang
                </button>`
             : `<button class="btn btn-secondary btn-block" onclick="notifyDemand('${product.name}')">
                 📱 Ingatkan Saya via WA
                </button>`;
+
+        const initialPrice = product.variants[0].price;
+        const initialUnit = product.variants[0].unit;
 
         const cardHTML = `
             <article class="${cardClass}">
@@ -170,7 +183,9 @@ function renderProducts(category) {
                 <div class="card-body">
                     <h4 class="product-title">${product.name}</h4>
                     <p class="product-desc">${product.desc}</p>
-                    <p class="product-price">${formatRupiah(product.price)} <span class="unit">/ ${product.unit}</span></p>
+                    <p class="product-price" id="price-display-${product.id}">
+                        ${formatRupiah(initialPrice)} <span class="unit">/ ${initialUnit}</span>
+                    </p>
                     ${actionButton}
                 </div>
             </article>
@@ -180,23 +195,37 @@ function renderProducts(category) {
     });
 }
 
-/**
- * Menambahkan Produk ke Keranjang
- */
-function addToCart(productId) {
+// Fungsi Update Tampilan Harga Saat Dropdown Varian Diubah
+function updateCardPrice(productId) {
     const product = productsData.find(p => p.id === productId);
-    if (!product) return;
+    const selectElement = document.getElementById(`variant-${productId}`);
+    const selectedVariant = product.variants[selectElement.value];
 
-    const existingIndex = cart.findIndex(item => item.id === productId);
+    const priceDisplay = document.getElementById(`price-display-${productId}`);
+    priceDisplay.innerHTML = `${formatRupiah(selectedVariant.price)} <span class="unit">/ ${selectedVariant.unit}</span>`;
+}
+
+// Fungsi Tambah ke Keranjang Berdasarkan Varian yang Dipilih
+function addToCartWithVariant(productId) {
+    const product = productsData.find(p => p.id === productId);
+    const selectElement = document.getElementById(`variant-${productId}`);
+    const selectedVariant = product.variants[selectElement.value];
+
+    // Buat Unik ID Keranjang gabungan ID Produk + Nama Varian
+    const cartItemId = `${product.id}-${selectedVariant.name}`;
+    const cartItemName = `${product.name} (${selectedVariant.name})`;
+
+    const existingIndex = cart.findIndex(item => item.cartItemId === cartItemId);
 
     if (existingIndex > -1) {
         cart[existingIndex].quantity += 1;
     } else {
         cart.push({
+            cartItemId: cartItemId,
             id: product.id,
-            name: product.name,
-            price: product.price,
-            unit: product.unit,
+            name: cartItemName,
+            price: selectedVariant.price,
+            unit: selectedVariant.unit,
             quantity: 1
         });
     }
