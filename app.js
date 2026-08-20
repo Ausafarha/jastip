@@ -10,54 +10,52 @@ const productsData = [
     {
         id: 1,
         category: 'marinasi',
-        name: 'Lele Marinasi Segar (Isi 3)',
-        desc: 'Siap goreng, bumbu marinasi meresap gurih.',
-        price: 12000,
-        unit: 'pack',
+        name: 'Lele Marinasi Segar',
+        desc: 'Siap goreng, bumbu marinasi meresap gurih. Bebas pilih ukuran/varian.',
         status: 'READY PO',
-        image: 'assets/images/lele.jpg'
+        image: 'assets/images/lele.jpg',
+        // Tambahkan Array Variants
+        variants: [
+            { name: 'Pack Isi 3 Ekor ', price: 12000, unit: 'pack' },
+            { name: 'Pack Isi 5 Ekor ', price: 19000, unit: 'pack' },
+            { name: 'Kiloan (1 Kg Segar)', price: 32000, unit: 'kg' }
+        ]
     },
     {
         id: 2,
         category: 'marinasi',
-        name: 'Lele Marinasi Segar (Isi 5)',
-        desc: 'Isi 5 ekor, porsi pas untuk keluarga.',
-        price: 19000,
-        unit: 'pack',
-        status: 'READY PO',
-        image: 'assets/images/lele.jpg'
-    },
-    {
-        id: 10,
-        category: 'marinasi',
         name: 'Nila Marinasi Segar',
         desc: 'Ikan nila segar dibumbui marinasi spesial, daging tebal dan gurih.',
-        price: 8000,
-        unit: 'ekor',
-        status: 'READY PO',
-        image: 'assets/images/nila.jpg'
+        status: 'COMING SOON',
+        image: 'assets/images/nila.jpg',
+        variants: [
+            { name: 'Pack Isi 3 Ekor ', price: 22000, unit: 'pack' },
+            { name: 'Kiloan (1 Kg Segar)', price: 35000, unit: 'kg' }
+        ]
     },
 
     // --- MELON HIDROPONIK (COMING SOON) ---
-    {
+{
         id: 3,
         category: 'melon',
         name: 'Melon Hidroponik Jaring (Net)',
-        desc: 'Melon net manis renyah premium, hasil kebun hidroponik lokal, dengan kemanisan di atas 13brix',
-        price: 45000,
-        unit: 'kg',
+        desc: 'Melon net manis renyah premium, hasil kebun hidroponik lokal.',
         status: 'COMING SOON',
-        image: 'assets/images/melon1.jpg'
+        image: 'assets/images/melon1.jpg',
+        variants: [
+            { name: 'Ukuran 1 Kg', price: 45000, unit: 'kg' }
+        ]
     },
     {
         id: 4,
         category: 'melon',
         name: 'Melon Hidroponik Dalmatian',
         desc: 'Melon motif dalmatian dengan tekstur super juicy dan manis tinggi.',
-        price: 45000,
-        unit: 'kg',
         status: 'COMING SOON',
-        image: 'assets/images/melon2.jpg'
+        image: 'assets/images/melon2.jpg',
+        variants: [
+            { name: 'Ukuran 1 Kg', price: 45000, unit: 'kg' }
+        ]
     },
 
     // --- IKAN LAUT ASAP (COMING SOON) ---
@@ -74,7 +72,7 @@ const productsData = [
     {
         id: 6,
         category: 'ikan-asap',
-        name: 'Ikan Asap Panggang (Isi 5 Potong)',
+        name: 'Ikan Asap Panggang (Isi 5 Ekor)',
         desc: 'Ikan panggang asap aroma khas gurih, cocok untuk mangut.',
         price: 15000,
         unit: 'pack',
