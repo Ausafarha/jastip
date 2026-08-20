@@ -10,7 +10,7 @@ const productsData = [
     {
         id: 1,
         category: 'marinasi',
-        name: 'Ikan Marinasi Segar (Isi 3)',
+        name: 'Lele Marinasi Segar (Isi 3)',
         desc: 'Siap goreng, bumbu marinasi meresap gurih.',
         price: 12000,
         unit: 'pack',
@@ -20,7 +20,7 @@ const productsData = [
     {
         id: 2,
         category: 'marinasi',
-        name: 'Ikan Marinasi Segar (Isi 5)',
+        name: 'Lele Marinasi Segar (Isi 5)',
         desc: 'Isi 5 ekor, porsi pas untuk keluarga.',
         price: 19000,
         unit: 'pack',
