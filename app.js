@@ -64,50 +64,55 @@ const productsData = [
         category: 'ikan-asap',
         name: 'Ikan Asap Pari / Peh (Isi 5 Potong)',
         desc: 'Daging kenyal khas ikan pari asap segar tangkapan nelayan.',
-        price: 20000,
-        unit: 'pack',
         status: 'COMING SOON',
-        image: 'assets/images/peh.jpg'
+        image: 'assets/images/peh.jpg',
+        variants: [
+            { name: 'Pack Isi 5 Potong', price: 20000, unit: 'pack' }
+        ]
     },
     {
         id: 6,
         category: 'ikan-asap',
         name: 'Ikan Asap Panggang (Isi 5 Ekor)',
         desc: 'Ikan panggang asap aroma khas gurih, cocok untuk mangut.',
-        price: 15000,
-        unit: 'pack',
         status: 'COMING SOON',
-        image: 'assets/images/panggang.jpg'
+        image: 'assets/images/panggang.jpg',
+        variants: [
+            { name: 'Pack Isi 5 Ekor', price: 15000, unit: 'pack' }
+        ]
     },
     {
         id: 7,
         category: 'ikan-asap',
         name: 'Ikan Asap Cucut (Isi 5 Potong)',
         desc: 'Daging padat gurih tanpa banyak duri halus.',
-        price: 20000,
-        unit: 'pack',
         status: 'COMING SOON',
-        image: 'assets/images/cucut.jpg'
+        image: 'assets/images/cucut.jpg',
+        variants: [
+            { name: 'Pack Isi 5 Potong', price: 20000, unit: 'pack' }
+        ]
     },
     {
         id: 8,
         category: 'ikan-asap',
         name: 'Ikan Asap Larak (Isi 5 Potong)',
         desc: 'Ikan larak pengasapan tradisional kualitas super.',
-        price: 20000,
-        unit: 'pack',
         status: 'COMING SOON',
-        image: 'assets/images/larak.jpg'
+        image: 'assets/images/larak.jpg',
+        variants: [
+            { name: 'Pack Isi 5 Potong', price: 20000, unit: 'pack' }
+        ]
     },
     {
         id: 9,
         category: 'ikan-asap',
         name: 'Ikan Asap Etong (Isi 5 Potong)',
         desc: 'Daging tebal mirip ayam dengan aroma asap khas.',
-        price: 20000,
-        unit: 'pack',
         status: 'COMING SOON',
-        image: 'assets/images/etong.jpg'
+        image: 'assets/images/etong.jpg',
+        variants: [
+            { name: 'Pack Isi 5 Potong', price: 20000, unit: 'pack' }
+        ]
     }
 ];
 
