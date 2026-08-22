@@ -17,7 +17,6 @@ const productsData = [
         // Tambahkan Array Variants
         variants: [
             { name: 'Pack Isi 3 Ekor ', price: 12000, unit: 'pack' },
-            { name: 'Pack Isi 5 Ekor ', price: 19000, unit: 'pack' },
             { name: 'Kiloan (1 Kg Segar)', price: 32000, unit: 'kg' }
         ]
     },
