@@ -38,8 +38,8 @@ const productsData = [
         id: 3,
         category: 'melon',
         name: 'Melon Hidroponik Jaring (Net)',
-        desc: 'Melon net manis renyah premium, hasil kebun hidroponik lokal.',
-        status: 'COMING SOON',
+        desc: 'Melon net manis renyah premium, kemanisan di atas 13 Brix.',
+        status: 'READY PO',
         image: 'assets/images/melon1.jpg',
         variants: [
             { name: 'Ukuran 1 Kg', price: 45000, unit: 'kg' }
@@ -49,8 +49,8 @@ const productsData = [
         id: 4,
         category: 'melon',
         name: 'Melon Hidroponik Dalmatian',
-        desc: 'Melon motif dalmatian dengan tekstur super juicy dan manis tinggi.',
-        status: 'COMING SOON',
+        desc: 'Melon  tekstur super juicy dan kemanisan di atas 13 Brix.',
+        status: 'READY PO',
         image: 'assets/images/melon2.jpg',
         variants: [
             { name: 'Ukuran 1 Kg', price: 45000, unit: 'kg' }
