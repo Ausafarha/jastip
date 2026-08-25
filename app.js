@@ -37,7 +37,7 @@ const productsData = [
 {
         id: 3,
         category: 'melon',
-        name: 'Melon Hidroponik Jaring (Net)',
+        name: 'Melon Hidroponik Golden Aroma',
         desc: 'Melon net manis renyah premium, kemanisan di atas 13 Brix.',
         status: 'READY PO',
         image: 'assets/images/melon1.jpg',
