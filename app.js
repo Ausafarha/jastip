@@ -42,7 +42,7 @@ const productsData = [
         status: 'READY PO',
         image: 'assets/images/melon1.jpg',
         variants: [
-            { name: 'Ukuran 1 Kg', price: 45000, unit: 'kg' }
+            { name: 'Ukuran 1 Kg', price: 40000, unit: 'kg' }
         ]
     },
     {
@@ -53,13 +53,35 @@ const productsData = [
         status: 'READY PO',
         image: 'assets/images/melon2.jpg',
         variants: [
-            { name: 'Ukuran 1 Kg', price: 45000, unit: 'kg' }
+            { name: 'Ukuran 1 Kg', price: 40000, unit: 'kg' }
+        ]
+    },
+    {
+        id: 5,
+        category: 'melon',
+        name: 'Melon Sweet Lavender (Kuning)',
+        desc: 'Melon hidroponik kulit kuning jaring, daging renyah dengan tingkat kemanisan tinggi.',
+        status: 'READY PO',
+        image: 'assets/images/sweet-lavender.jpg',
+        variants: [
+            { name: 'Ukuran Per Kg', price: 35000, unit: 'kg' }
+        ]
+    },
+    {
+        id: 6,
+        category: 'melon',
+        name: 'Melon Sweet Net (Putih)',
+        desc: 'Melon hidroponik kulit putih net premium, tekstur lembut, juicy, dan sangat manis.',
+        status: 'READY PO',
+        image: 'assets/images/sweetnet.jpg',
+        variants: [
+            { name: 'Ukuran Per Kg', price: 35000, unit: 'kg' }
         ]
     },
 
     // --- IKAN LAUT ASAP (COMING SOON) ---
     {
-        id: 5,
+        id: 7,
         category: 'ikan-asap',
         name: 'Ikan Asap Pari / Peh (Isi 5 Potong)',
         desc: 'Daging kenyal khas ikan pari asap segar tangkapan nelayan.',
@@ -70,7 +92,7 @@ const productsData = [
         ]
     },
     {
-        id: 6,
+        id: 8,
         category: 'ikan-asap',
         name: 'Ikan Asap Panggang (Isi 5 Ekor)',
         desc: 'Ikan panggang asap aroma khas gurih, cocok untuk mangut.',
@@ -81,7 +103,7 @@ const productsData = [
         ]
     },
     {
-        id: 7,
+        id: 9,
         category: 'ikan-asap',
         name: 'Ikan Asap Cucut (Isi 5 Potong)',
         desc: 'Daging padat gurih tanpa banyak duri halus.',
@@ -92,7 +114,7 @@ const productsData = [
         ]
     },
     {
-        id: 8,
+        id: 10,
         category: 'ikan-asap',
         name: 'Ikan Asap Larak (Isi 5 Potong)',
         desc: 'Ikan larak pengasapan tradisional kualitas super.',
@@ -103,7 +125,7 @@ const productsData = [
         ]
     },
     {
-        id: 9,
+        id: 11,
         category: 'ikan-asap',
         name: 'Ikan Asap Etong (Isi 5 Potong)',
         desc: 'Daging tebal mirip ayam dengan aroma asap khas.',
