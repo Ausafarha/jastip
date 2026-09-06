@@ -6,17 +6,16 @@ const ADMIN_PHONE = "6285866692986";
 
 // Master Data Produk
 const productsData = [
-    // --- Ikan Marinasi (READY PO) ---
+    // --- IKAN MARINASI (READY PO) ---
     {
         id: 1,
         category: 'marinasi',
         name: 'Lele Marinasi Segar',
-        desc: 'Siap goreng, bumbu marinasi meresap gurih. Bebas pilih ukuran/varian.',
+        desc: 'Siap goreng, bumbu marinasi meresap gurih. Bebas pilih varian.',
         status: 'READY PO',
         image: 'assets/images/lele.jpg',
-        // Tambahkan Array Variants
         variants: [
-            { name: 'Pack Isi 3 Ekor ', price: 12000, unit: 'pack' },
+            { name: 'Pack Isi 3 Ekor', price: 12000, unit: 'pack' },
             { name: 'Kiloan (1 Kg Segar)', price: 32000, unit: 'kg' }
         ]
     },
@@ -28,54 +27,66 @@ const productsData = [
         status: 'COMING SOON',
         image: 'assets/images/nila.jpg',
         variants: [
-            { name: 'Pack Isi 3 Ekor ', price: 22000, unit: 'pack' },
+            { name: 'Pack Isi 3 Ekor', price: 22000, unit: 'pack' },
             { name: 'Kiloan (1 Kg Segar)', price: 35000, unit: 'kg' }
         ]
     },
 
-    // --- MELON HIDROPONIK (COMING SOON) ---
-{
+    // --- MELON HIDROPONIK (READY PO - KISARAN TIMBANGAN) ---
+    {
         id: 3,
         category: 'melon',
-        name: 'Melon Hidroponik Golden Aroma',
-        desc: 'Melon net manis renyah premium, kemanisan di atas 13 Brix.',
+        name: 'Melon Golden Aroma',
+        desc: 'Melon net manis renyah premium (Modal 28k). Kemanisan tinggi di atas 13 Brix.',
         status: 'READY PO',
         image: 'assets/images/melon1.jpg',
+        note: '⚖️ *Catatan: Harga disesuaikan timbangan riil (Rp 40.000/kg).*',
         variants: [
-            { name: 'Ukuran 1 Kg', price: 40000, unit: 'kg' }
+            { name: 'Ukuran Sedang (± 1.0 - 1.2 kg)', price: 40000, unit: 'est. kg' },
+            { name: 'Ukuran Besar (± 1.3 - 1.5 kg)', price: 56000, unit: 'est. kg' },
+            { name: 'Ukuran Jumbo (± 1.6 - 1.8 kg)', price: 68000, unit: 'est. kg' }
         ]
     },
     {
         id: 4,
         category: 'melon',
-        name: 'Melon Hidroponik Dalmatian',
-        desc: 'Melon  tekstur super juicy dan kemanisan di atas 13 Brix.',
+        name: 'Melon Dalmatian',
+        desc: 'Melon tekstur super juicy (Modal 28k). Kemanisan tinggi di atas 13 Brix.',
         status: 'READY PO',
         image: 'assets/images/melon2.jpg',
+        note: '⚖️ *Catatan: Harga disesuaikan timbangan riil (Rp 40.000/kg).*',
         variants: [
-            { name: 'Ukuran 1 Kg', price: 40000, unit: 'kg' }
+            { name: 'Ukuran Sedang (± 1.0 - 1.2 kg)', price: 40000, unit: 'est. kg' },
+            { name: 'Ukuran Besar (± 1.3 - 1.5 kg)', price: 56000, unit: 'est. kg' },
+            { name: 'Ukuran Jumbo (± 1.6 - 1.8 kg)', price: 68000, unit: 'est. kg' }
         ]
     },
     {
         id: 5,
         category: 'melon',
         name: 'Melon Sweet Lavender (Kuning)',
-        desc: 'Melon hidroponik kulit kuning jaring, daging renyah dengan tingkat kemanisan tinggi.',
+        desc: 'Melon hidroponik kulit kuning jaring (Modal 35k), daging renyah & sangat manis.',
         status: 'READY PO',
         image: 'assets/images/sweet-lavender.jpg',
+        note: '⚖️ *Catatan: Harga disesuaikan timbangan riil (Rp 45.000/kg).*',
         variants: [
-            { name: 'Ukuran Per Kg', price: 35000, unit: 'kg' }
+            { name: 'Ukuran Sedang (± 1.0 - 1.2 kg)', price: 45000, unit: 'est. kg' },
+            { name: 'Ukuran Besar (± 1.3 - 1.5 kg)', price: 63000, unit: 'est. kg' },
+            { name: 'Ukuran Jumbo (± 1.6 - 1.8 kg)', price: 76000, unit: 'est. kg' }
         ]
     },
     {
         id: 6,
         category: 'melon',
         name: 'Melon Sweet Net (Putih)',
-        desc: 'Melon hidroponik kulit putih net premium, tekstur lembut, juicy, dan sangat manis.',
+        desc: 'Melon kulit putih net premium (Modal 35k), tekstur lembut, juicy, dan manis.',
         status: 'READY PO',
         image: 'assets/images/sweetnet.jpg',
+        note: '⚖️ *Catatan: Harga disesuaikan timbangan riil (Rp 45.000/kg).*',
         variants: [
-            { name: 'Ukuran Per Kg', price: 35000, unit: 'kg' }
+            { name: 'Ukuran Sedang (± 1.0 - 1.2 kg)', price: 45000, unit: 'est. kg' },
+            { name: 'Ukuran Besar (± 1.3 - 1.5 kg)', price: 63000, unit: 'est. kg' },
+            { name: 'Ukuran Jumbo (± 1.6 - 1.8 kg)', price: 76000, unit: 'est. kg' }
         ]
     },
 
@@ -147,7 +158,9 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCartUI();
     
     const checkoutForm = document.getElementById('checkout-form');
-    checkoutForm.addEventListener('submit', handleCheckout);
+    if (checkoutForm) {
+        checkoutForm.addEventListener('submit', handleCheckout);
+    }
 });
 
 /**
@@ -156,10 +169,11 @@ document.addEventListener('DOMContentLoaded', () => {
 function filterProducts(category) {
     currentCategory = category;
     
-    // Update State Tombol Filter UI
     const filterBtns = document.querySelectorAll('.filter-btn');
     filterBtns.forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
+    if (event && event.target) {
+        event.target.classList.add('active');
+    }
 
     renderProducts(category);
 }
@@ -183,13 +197,16 @@ function renderProducts(category) {
             variantOptionsHTML += `<option value="${index}">${variant.name} - ${formatRupiah(variant.price)}</option>`;
         });
 
+        const noteHTML = product.note ? `<p class="product-note" style="font-size: 0.75rem; color: #d97706; margin-bottom: 8px;">${product.note}</p>` : '';
+
         const actionButton = isReady 
             ? `<div class="variant-select-group">
-                <label for="variant-${product.id}">Pilih Varian/Ukuran:</label>
+                <label for="variant-${product.id}">Pilih Varian / Estimasi Berat:</label>
                 <select id="variant-${product.id}" class="variant-dropdown" onchange="updateCardPrice(${product.id})">
                     ${variantOptionsHTML}
                 </select>
                </div>
+               ${noteHTML}
                <button class="btn btn-primary btn-block" onclick="addToCartWithVariant(${product.id})">
                 🛒 Tambah ke Keranjang
                </button>`
@@ -237,7 +254,6 @@ function addToCartWithVariant(productId) {
     const selectElement = document.getElementById(`variant-${productId}`);
     const selectedVariant = product.variants[selectElement.value];
 
-    // Buat Unik ID Keranjang gabungan ID Produk + Nama Varian
     const cartItemId = `${product.id}-${selectedVariant.name}`;
     const cartItemName = `${product.name} (${selectedVariant.name})`;
 
@@ -252,6 +268,7 @@ function addToCartWithVariant(productId) {
             name: cartItemName,
             price: selectedVariant.price,
             unit: selectedVariant.unit,
+            category: product.category,
             quantity: 1
         });
     }
@@ -259,9 +276,6 @@ function addToCartWithVariant(productId) {
     saveAndRenderCart();
 }
 
-/**
- * Menghapus Item dari Keranjang
- */
 function removeFromCart(index) {
     cart.splice(index, 1);
     saveAndRenderCart();
@@ -322,6 +336,7 @@ function handleCheckout(e) {
 
     const nameInput = document.getElementById('customer-name').value.trim();
     const addressInput = document.getElementById('customer-address').value.trim();
+    const notesInput = document.getElementById('customer-notes') ? document.getElementById('customer-notes').value.trim() : '';
 
     if (!nameInput || !addressInput) {
         alert("Mohon lengkapi Nama dan Alamat Pengiriman!");
@@ -329,26 +344,26 @@ function handleCheckout(e) {
     }
 
     const grandTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const hasMelon = cart.some(item => item.category === 'melon');
 
     let itemsText = "";
     cart.forEach((item, index) => {
-        itemsText += `${index + 1}. *${item.name}*\n   - Qty: ${item.quantity} ${item.unit}\n   - Subtotal: ${formatRupiah(item.price * item.quantity)}\n`;
+        itemsText += `${index + 1}. *${item.name}*\n   • Qty: ${item.quantity}\n   • Subtotal: ${formatRupiah(item.price * item.quantity)}\n`;
     });
 
-    const message = 
-`🛍️ *PESANAN BARU - JASTIP BANTARKAWUNG SEKITARNYA* 🛍️
+    let message = `Halo Admin Jastip Bantarkawung, saya mau order:\n\n`;
+    message += `📋 *DETAIL PESANAN:*\n${itemsText}\n`;
+    message += `💰 *TOTAL ESTIMASI:* ${formatRupiah(grandTotal)}\n\n`;
+    message += `👤 *DATA PEMBELI:*\n`;
+    message += `• Nama: ${nameInput}\n`;
+    message += `• Patokan Alamat: ${addressInput}\n`;
+    message += `• Catatan: ${notesInput || '-'}\n\n`;
 
-*Data Pemesan:*
-👤 *Nama:* ${nameInput}
-📍 *Alamat:* ${addressInput}
+    if (hasMelon) {
+        message += `⚖️ *CATATAN TIMBANGAN MELON:*\nTotal harga melon di atas adalah estimasi. Admin akan mengonfirmasi berat pasti & nota akhir via chat ini.\n\n`;
+    }
 
----
-*Rincian Pesanan:*
-${itemsText}
----
-💰 *Total Pembayaran:* ${formatRupiah(grandTotal)}
-
-Halo Admin, mohon proses pesanan jastip saya di atas ya. Terima kasih!`;
+    message += `📍 *LOKASI PENGIRIMAN:*\n(Mohon lampirkan Share Location / Titik Maps lokasi Rumah Anda di bawah pesan ini ya Kak 🙏)`;
 
     const waUrl = `https://wa.me/${ADMIN_PHONE}?text=${encodeURIComponent(message)}`;
     window.open(waUrl, '_blank');
@@ -374,19 +389,21 @@ function formatRupiah(number) {
     }).format(number);
 }
 
-/**
- * Helper Fungsi Popup Modal Gambar
- */
 function openImageModal(imageSrc, title) {
     const modal = document.getElementById('image-modal');
     const modalImg = document.getElementById('modal-img-target');
     const captionText = document.getElementById('modal-caption');
 
-    modal.style.display = 'block';
-    modalImg.src = imageSrc;
-    captionText.textContent = title;
+    if (modal && modalImg && captionText) {
+        modal.style.display = 'block';
+        modalImg.src = imageSrc;
+        captionText.textContent = title;
+    }
 }
 
 function closeImageModal() {
-    document.getElementById('image-modal').style.display = 'none';
+    const modal = document.getElementById('image-modal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
 }
