@@ -37,7 +37,7 @@ const productsData = [
         id: 3,
         category: 'melon',
         name: 'Melon Golden Aroma',
-        desc: 'Melon net manis renyah premium (Modal 28k). Kemanisan tinggi di atas 13 Brix.',
+        desc: 'Melon net manis renyah premium. Kemanisan tinggi di atas 13 Brix.',
         status: 'READY PO',
         image: 'assets/images/melon1.jpg',
         note: '⚖️ *Catatan: Harga disesuaikan timbangan riil (Rp 40.000/kg).*',
@@ -51,7 +51,7 @@ const productsData = [
         id: 4,
         category: 'melon',
         name: 'Melon Dalmatian',
-        desc: 'Melon tekstur super juicy (Modal 28k). Kemanisan tinggi di atas 13 Brix.',
+        desc: 'Melon dengan tekstur super juicy. Kemanisan tinggi di atas 13 Brix.',
         status: 'READY PO',
         image: 'assets/images/melon2.jpg',
         note: '⚖️ *Catatan: Harga disesuaikan timbangan riil (Rp 40.000/kg).*',
@@ -65,28 +65,28 @@ const productsData = [
         id: 5,
         category: 'melon',
         name: 'Melon Sweet Lavender (Kuning)',
-        desc: 'Melon hidroponik kulit kuning jaring (Modal 35k), daging renyah & sangat manis.',
+        desc: 'Melon hidroponik kulit kuning jaring, daging renyah & sangat manis.',
         status: 'READY PO',
         image: 'assets/images/sweet-lavender.jpg',
-        note: '⚖️ *Catatan: Harga disesuaikan timbangan riil (Rp 45.000/kg).*',
+        note: '⚖️ *Catatan: Harga disesuaikan timbangan riil (Rp 35.000/kg).*',
         variants: [
-            { name: 'Ukuran Sedang (± 1.0 - 1.2 kg)', price: 45000, unit: 'est. kg' },
-            { name: 'Ukuran Besar (± 1.3 - 1.5 kg)', price: 63000, unit: 'est. kg' },
-            { name: 'Ukuran Jumbo (± 1.6 - 1.8 kg)', price: 76000, unit: 'est. kg' }
+            { name: 'Ukuran Sedang (± 1.0 - 1.2 kg)', price: 35000, unit: 'est. kg' },
+            { name: 'Ukuran Besar (± 1.3 - 1.5 kg)', price: 49000, unit: 'est. kg' },
+            { name: 'Ukuran Jumbo (± 1.6 - 1.8 kg)', price: 59000, unit: 'est. kg' }
         ]
     },
     {
         id: 6,
         category: 'melon',
         name: 'Melon Sweet Net (Putih)',
-        desc: 'Melon kulit putih net premium (Modal 35k), tekstur lembut, juicy, dan manis.',
+        desc: 'Melon kulit putih net premium, tekstur lembut, juicy, dan manis.',
         status: 'READY PO',
         image: 'assets/images/sweetnet.jpg',
-        note: '⚖️ *Catatan: Harga disesuaikan timbangan riil (Rp 45.000/kg).*',
+        note: '⚖️ *Catatan: Harga disesuaikan timbangan riil (Rp 35.000/kg).*',
         variants: [
-            { name: 'Ukuran Sedang (± 1.0 - 1.2 kg)', price: 45000, unit: 'est. kg' },
-            { name: 'Ukuran Besar (± 1.3 - 1.5 kg)', price: 63000, unit: 'est. kg' },
-            { name: 'Ukuran Jumbo (± 1.6 - 1.8 kg)', price: 76000, unit: 'est. kg' }
+            { name: 'Ukuran Sedang (± 1.0 - 1.2 kg)', price: 35000, unit: 'est. kg' },
+            { name: 'Ukuran Besar (± 1.3 - 1.5 kg)', price: 49000, unit: 'est. kg' },
+            { name: 'Ukuran Jumbo (± 1.6 - 1.8 kg)', price: 59000, unit: 'est. kg' }
         ]
     },
 
