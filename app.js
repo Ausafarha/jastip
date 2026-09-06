@@ -279,7 +279,9 @@ function saveAndRenderCart() {
     localStorage.setItem('jastip_cart', JSON.stringify(cart));
     updateCartUI();
 }
-
+/**
+ * Update UI Keranjang Belanja dengan Rentang Harga
+ */
 function updateCartUI() {
     const cartItemsContainer = document.getElementById('cart-items');
     const cartBadge = document.getElementById('cart-badge');
@@ -296,29 +298,55 @@ function updateCartUI() {
         return;
     }
 
-    let grandTotal = 0;
+    let minGrandTotal = 0;
+    let maxGrandTotal = 0;
+    let hasRange = false;
 
     cart.forEach((item, index) => {
-        const itemSubtotal = item.price * item.quantity;
-        grandTotal += itemSubtotal;
+        // Ambil data produk asli untuk cek displayPrice
+        const product = productsData.find(p => p.id === item.id);
+        const selectedVariant = product ? product.variants.find(v => item.name.includes(v.name)) : null;
+
+        let itemPriceText = formatRupiah(item.price * item.quantity);
+
+        if (selectedVariant && selectedVariant.displayPrice) {
+            hasRange = true;
+            // Ambil angka min & max dari displayPrice (contoh: "Rp 64.000 - Rp 72.000")
+            const prices = selectedVariant.displayPrice.replace(/[^0-9-]/g, '').split('-');
+            const minPrice = parseInt(prices[0]) * item.quantity;
+            const maxPrice = parseInt(prices[1]) * item.quantity;
+            
+            minGrandTotal += minPrice;
+            maxGrandTotal += maxPrice;
+            itemPriceText = `${formatRupiah(minPrice)} - ${formatRupiah(maxPrice)}`;
+        } else {
+            const total = item.price * item.quantity;
+            minGrandTotal += total;
+            maxGrandTotal += total;
+        }
 
         const itemElement = document.createElement('div');
         itemElement.className = 'cart-item';
         itemElement.innerHTML = `
             <div class="cart-item-info">
                 <h5>${item.name}</h5>
-                <p>${item.quantity} x ${formatRupiah(item.price)} = <strong>${formatRupiah(itemSubtotal)}</strong></p>
+                <p>${item.quantity} x (${itemPriceText})</p>
             </div>
             <button class="cart-item-remove" onclick="removeFromCart(${index})">Hapus</button>
         `;
         cartItemsContainer.appendChild(itemElement);
     });
 
-    cartTotalPrice.textContent = formatRupiah(grandTotal);
+    // Tampilkan Total Estimasi di Keranjang
+    if (hasRange) {
+        cartTotalPrice.textContent = `${formatRupiah(minGrandTotal)} - ${formatRupiah(maxGrandTotal)}`;
+    } else {
+        cartTotalPrice.textContent = formatRupiah(minGrandTotal);
+    }
 }
 
 /**
- * Handler Checkout WhatsApp
+ * Handler Checkout WhatsApp dengan Rentang Harga
  */
 function handleCheckout(e) {
     e.preventDefault();
@@ -337,24 +365,50 @@ function handleCheckout(e) {
         return;
     }
 
-    const grandTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const hasMelon = cart.some(item => item.category === 'melon');
-
+    let minGrandTotal = 0;
+    let maxGrandTotal = 0;
+    let hasMelon = false;
     let itemsText = "";
+
     cart.forEach((item, index) => {
-        itemsText += `${index + 1}. *${item.name}*\n   • Qty: ${item.quantity}\n   • Subtotal: ${formatRupiah(item.price * item.quantity)}\n`;
+        const product = productsData.find(p => p.id === item.id);
+        const selectedVariant = product ? product.variants.find(v => item.name.includes(v.name)) : null;
+
+        if (item.category === 'melon') hasMelon = true;
+
+        let priceText = "";
+        if (selectedVariant && selectedVariant.displayPrice) {
+            const prices = selectedVariant.displayPrice.replace(/[^0-9-]/g, '').split('-');
+            const minPrice = parseInt(prices[0]) * item.quantity;
+            const maxPrice = parseInt(prices[1]) * item.quantity;
+            
+            minGrandTotal += minPrice;
+            maxGrandTotal += maxPrice;
+            priceText = `${formatRupiah(minPrice)} - ${formatRupiah(maxPrice)}`;
+        } else {
+            const total = item.price * item.quantity;
+            minGrandTotal += total;
+            maxGrandTotal += total;
+            priceText = formatRupiah(total);
+        }
+
+        itemsText += `${index + 1}. *${item.name}*\n   • Qty: ${item.quantity}\n   • Est. Harga: ${priceText}\n`;
     });
+
+    const totalText = (minGrandTotal !== maxGrandTotal) 
+        ? `${formatRupiah(minGrandTotal)} - ${formatRupiah(maxGrandTotal)}`
+        : formatRupiah(minGrandTotal);
 
     let message = `Halo Admin Jastip Bantarkawung, saya mau order:\n\n`;
     message += `📋 *DETAIL PESANAN:*\n${itemsText}\n`;
-    message += `💰 *TOTAL ESTIMASI:* ${formatRupiah(grandTotal)}\n\n`;
+    message += `💰 *TOTAL ESTIMASI:* ${totalText}\n\n`;
     message += `👤 *DATA PEMBELI:*\n`;
     message += `• Nama: ${nameInput}\n`;
     message += `• Patokan Alamat: ${addressInput}\n`;
     message += `• Catatan: ${notesInput || '-'}\n\n`;
 
     if (hasMelon) {
-        message += `⚖️ *CATATAN TIMBANGAN MELON:*\nTotal harga melon di atas adalah estimasi. Admin akan mengonfirmasi berat pasti & nota akhir via chat ini.\n\n`;
+        message += `⚖️ *INFO TIMBANGAN:* Total di atas adalah estimasi kisaran berat. Harga pas akan diinfokan setelah barang ditimbang ya kak.\n\n`;
     }
 
     message += `📍 *LOKASI PENGIRIMAN:*\n(Mohon lampirkan Share Location / Titik Maps lokasi Rumah Anda di bawah pesan ini ya Kak 🙏)`;
@@ -362,7 +416,6 @@ function handleCheckout(e) {
     const waUrl = `https://wa.me/${ADMIN_PHONE}?text=${encodeURIComponent(message)}`;
     window.open(waUrl, '_blank');
 }
-
 /**
  * Handler Validasi Demand (Coming Soon Button)
  */
