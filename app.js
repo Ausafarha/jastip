@@ -32,7 +32,7 @@ const productsData = [
         ]
     },
 
-    // --- MELON HIDROPONIK (READY PO - KISARAN TIMBANGAN) ---
+    // --- MELON HIDROPONIK (READY PO) ---
     {
         id: 3,
         category: 'melon',
@@ -40,11 +40,10 @@ const productsData = [
         desc: 'Melon net manis renyah premium. Kemanisan tinggi di atas 13 Brix.',
         status: 'READY PO',
         image: 'assets/images/melon1.jpg',
-        note: '⚖️ *Catatan: Harga disesuaikan timbangan riil (Rp 40.000/kg).*',
         variants: [
-            { name: 'Ukuran Sedang (± 1.0 - 1.2 kg)', price: 40000, unit: 'est. kg' },
-            { name: 'Ukuran Besar (± 1.3 - 1.5 kg)', price: 56000, unit: 'est. kg' },
-            { name: 'Ukuran Jumbo (± 1.6 - 1.8 kg)', price: 68000, unit: 'est. kg' }
+            { name: 'Ukuran Sedang (± 1.0 - 1.2 kg)', price: 40000, displayPrice: 'Rp 40.000 - Rp 48.000', unit: 'est' },
+            { name: 'Ukuran Besar (± 1.3 - 1.5 kg)', price: 52000, displayPrice: 'Rp 52.000 - Rp 60.000', unit: 'est' },
+            { name: 'Ukuran Jumbo (± 1.6 - 1.8 kg)', price: 64000, displayPrice: 'Rp 64.000 - Rp 72.000', unit: 'est' }
         ]
     },
     {
@@ -54,11 +53,10 @@ const productsData = [
         desc: 'Melon dengan tekstur super juicy. Kemanisan tinggi di atas 13 Brix.',
         status: 'READY PO',
         image: 'assets/images/melon2.jpg',
-        note: '⚖️ *Catatan: Harga disesuaikan timbangan riil (Rp 40.000/kg).*',
         variants: [
-            { name: 'Ukuran Sedang (± 1.0 - 1.2 kg)', price: 40000, unit: 'est. kg' },
-            { name: 'Ukuran Besar (± 1.3 - 1.5 kg)', price: 56000, unit: 'est. kg' },
-            { name: 'Ukuran Jumbo (± 1.6 - 1.8 kg)', price: 68000, unit: 'est. kg' }
+            { name: 'Ukuran Sedang (± 1.0 - 1.2 kg)', price: 40000, displayPrice: 'Rp 40.000 - Rp 48.000', unit: 'est' },
+            { name: 'Ukuran Besar (± 1.3 - 1.5 kg)', price: 52000, displayPrice: 'Rp 52.000 - Rp 60.000', unit: 'est' },
+            { name: 'Ukuran Jumbo (± 1.6 - 1.8 kg)', price: 64000, displayPrice: 'Rp 64.000 - Rp 72.000', unit: 'est' }
         ]
     },
     {
@@ -68,11 +66,10 @@ const productsData = [
         desc: 'Melon hidroponik kulit kuning jaring, daging renyah & sangat manis.',
         status: 'READY PO',
         image: 'assets/images/sweet-lavender.jpg',
-        note: '⚖️ *Catatan: Harga disesuaikan timbangan riil (Rp 35.000/kg).*',
         variants: [
-            { name: 'Ukuran Sedang (± 1.0 - 1.2 kg)', price: 35000, unit: 'est. kg' },
-            { name: 'Ukuran Besar (± 1.3 - 1.5 kg)', price: 49000, unit: 'est. kg' },
-            { name: 'Ukuran Jumbo (± 1.6 - 1.8 kg)', price: 59000, unit: 'est. kg' }
+            { name: 'Ukuran Sedang (± 1.0 - 1.2 kg)', price: 35000, displayPrice: 'Rp 35.000 - Rp 42.000', unit: 'est' },
+            { name: 'Ukuran Besar (± 1.3 - 1.5 kg)', price: 45500, displayPrice: 'Rp 45.500 - Rp 52.500', unit: 'est' },
+            { name: 'Ukuran Jumbo (± 1.6 - 1.8 kg)', price: 56000, displayPrice: 'Rp 56.000 - Rp 63.000', unit: 'est' }
         ]
     },
     {
@@ -82,11 +79,10 @@ const productsData = [
         desc: 'Melon kulit putih net premium, tekstur lembut, juicy, dan manis.',
         status: 'READY PO',
         image: 'assets/images/sweetnet.jpg',
-        note: '⚖️ *Catatan: Harga disesuaikan timbangan riil (Rp 35.000/kg).*',
         variants: [
-            { name: 'Ukuran Sedang (± 1.0 - 1.2 kg)', price: 35000, unit: 'est. kg' },
-            { name: 'Ukuran Besar (± 1.3 - 1.5 kg)', price: 49000, unit: 'est. kg' },
-            { name: 'Ukuran Jumbo (± 1.6 - 1.8 kg)', price: 59000, unit: 'est. kg' }
+            { name: 'Ukuran Sedang (± 1.0 - 1.2 kg)', price: 35000, displayPrice: 'Rp 35.000 - Rp 42.000', unit: 'est' },
+            { name: 'Ukuran Besar (± 1.3 - 1.5 kg)', price: 45500, displayPrice: 'Rp 45.500 - Rp 52.500', unit: 'est' },
+            { name: 'Ukuran Jumbo (± 1.6 - 1.8 kg)', price: 56000, displayPrice: 'Rp 56.000 - Rp 63.000', unit: 'est' }
         ]
     },
 
@@ -191,22 +187,19 @@ function renderProducts(category) {
         const cardClass = isReady ? 'product-card' : 'product-card disabled';
         const badgeClass = isReady ? 'badge-status ready' : 'badge-status coming-soon';
         
-        // Buat Opsi Dropdown Varian
         let variantOptionsHTML = '';
         product.variants.forEach((variant, index) => {
-            variantOptionsHTML += `<option value="${index}">${variant.name} - ${formatRupiah(variant.price)}</option>`;
+            const priceText = variant.displayPrice ? variant.displayPrice : formatRupiah(variant.price);
+            variantOptionsHTML += `<option value="${index}">${variant.name} (${priceText})</option>`;
         });
-
-        const noteHTML = product.note ? `<p class="product-note" style="font-size: 0.75rem; color: #d97706; margin-bottom: 8px;">${product.note}</p>` : '';
 
         const actionButton = isReady 
             ? `<div class="variant-select-group">
-                <label for="variant-${product.id}">Pilih Varian / Estimasi Berat:</label>
+                <label for="variant-${product.id}">Pilih Varian / Berat:</label>
                 <select id="variant-${product.id}" class="variant-dropdown" onchange="updateCardPrice(${product.id})">
                     ${variantOptionsHTML}
                 </select>
                </div>
-               ${noteHTML}
                <button class="btn btn-primary btn-block" onclick="addToCartWithVariant(${product.id})">
                 🛒 Tambah ke Keranjang
                </button>`
@@ -214,7 +207,7 @@ function renderProducts(category) {
                 📱 Ingatkan Saya via WA
                </button>`;
 
-        const initialPrice = product.variants[0].price;
+        const initialPriceText = product.variants[0].displayPrice ? product.variants[0].displayPrice : formatRupiah(product.variants[0].price);
         const initialUnit = product.variants[0].unit;
 
         const cardHTML = `
@@ -227,7 +220,7 @@ function renderProducts(category) {
                     <h4 class="product-title">${product.name}</h4>
                     <p class="product-desc">${product.desc}</p>
                     <p class="product-price" id="price-display-${product.id}">
-                        ${formatRupiah(initialPrice)} <span class="unit">/ ${initialUnit}</span>
+                        ${initialPriceText} <span class="unit">/ ${initialUnit}</span>
                     </p>
                     ${actionButton}
                 </div>
@@ -244,8 +237,9 @@ function updateCardPrice(productId) {
     const selectElement = document.getElementById(`variant-${productId}`);
     const selectedVariant = product.variants[selectElement.value];
 
+    const priceText = selectedVariant.displayPrice ? selectedVariant.displayPrice : formatRupiah(selectedVariant.price);
     const priceDisplay = document.getElementById(`price-display-${productId}`);
-    priceDisplay.innerHTML = `${formatRupiah(selectedVariant.price)} <span class="unit">/ ${selectedVariant.unit}</span>`;
+    priceDisplay.innerHTML = `${priceText} <span class="unit">/ ${selectedVariant.unit}</span>`;
 }
 
 // Fungsi Tambah ke Keranjang Berdasarkan Varian yang Dipilih
