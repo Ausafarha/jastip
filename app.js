@@ -345,9 +345,6 @@ function updateCartUI() {
     }
 }
 
-/**
- * Handler Checkout Pesanan & Simpan ke Catatan Admin
- */
 function handleCheckout(e) {
     e.preventDefault();
 
@@ -401,10 +398,10 @@ function handleCheckout(e) {
         ? `${formatRupiah(minGrandTotal)} - ${formatRupiah(maxGrandTotal)}`
         : formatRupiah(minGrandTotal);
 
-    // 1. OLEH KARENA ITU: Buat Objek Pesanan Baru
+    // 1. Buat Objek Pesanan
     const newOrder = {
         id: Date.now(),
-        date: new Date().toLocaleString('id-ID', { dateStyle: 'short', timeStyle: 'short' }),
+        date: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
         customerName: nameInput,
         address: addressInput,
         notes: notesInput || '-',
@@ -413,7 +410,7 @@ function handleCheckout(e) {
         status: 'pending'
     };
 
-    // 2. SIMPAN DULU KE LOCALSTORAGE ADMIN (PENTING!)
+    // 2. Simpan ke LocalStorage Admin
     saveOrderToAdmin(newOrder);
 
     // 3. Rakit Format Pesan WhatsApp
@@ -643,4 +640,21 @@ function renderAdminDashboard() {
     });
 
     container.innerHTML = html;
+}
+// Helper untuk menyimpan pesanan otomatis ke storage admin dari checkout
+function saveOrderToAdmin(order) {
+    const orders = JSON.parse(localStorage.getItem('jastip_admin_manual_orders')) || [];
+    
+    // Ubah format agar cocok dengan struktur panel admin
+    const formattedOrder = {
+        id: order.id,
+        date: order.date,
+        name: order.customerName,
+        info: `📍 ${order.address} | 🛍️ ${order.items.join(', ')} | 💰 ${order.totalEstimate}`,
+        rawText: '',
+        status: order.status
+    };
+
+    orders.unshift(formattedOrder);
+    localStorage.setItem('jastip_admin_manual_orders', JSON.stringify(orders));
 }
