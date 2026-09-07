@@ -124,6 +124,47 @@
     <img class="modal-content" id="modal-img-target" alt="Preview Produk">
     <div id="modal-caption" class="modal-caption"></div>
 </div>
+<!-- Footer Akses Admin -->
+<footer style="text-align: center; padding: 20px 0; border-top: 1px solid #e2e8f0; margin-top: 40px;">
+    <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 5px;">© Jastip Bantarkawung</p>
+    <!-- Icon Gembok Rahasia -->
+    <button onclick="openAdminPanel()" title="Akses Admin" style="background: none; border: none; cursor: pointer; font-size: 1.1rem; opacity: 0.5;">
+        🔒
+    </button>
+</footer>
+
+<!-- Panel Admin (Default Tersembunyi) -->
+<section id="admin-panel" style="display: none; margin: 20px 15px; padding: 15px; background: #f8fafc; border: 2px solid #0284c7; border-radius: 12px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <h3 style="margin: 0; font-size: 1.1rem; color: #0f172a;">📋 Catatan Pesanan Admin</h3>
+        <div>
+            <button onclick="closeAdminPanel()" style="background: #64748b; color: #fff; border: none; padding: 4px 10px; font-size: 0.75rem; border-radius: 4px; cursor: pointer; margin-right: 5px;">
+                ❌ Tutup
+            </button>
+            <button onclick="clearAllAdminOrders()" style="background: none; border: 1px solid #ef4444; color: #ef4444; padding: 3px 8px; font-size: 0.75rem; border-radius: 4px; cursor: pointer;">
+                Bersihkan Semua
+            </button>
+        </div>
+    </div>
+
+    <!-- Ringkasan Jumlah Pesanan -->
+    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+        <div style="flex: 1; background: #fff; padding: 8px; border-radius: 6px; text-align: center; border: 1px solid #e2e8f0;">
+            <span style="font-size: 0.75rem; color: #64748b;">Total Pesanan</span>
+            <div id="admin-total-orders" style="font-weight: bold; font-size: 1.1rem; color: #0284c7;">0</div>
+        </div>
+        <div style="flex: 1; background: #fff; padding: 8px; border-radius: 6px; text-align: center; border: 1px solid #e2e8f0;">
+            <span style="font-size: 0.75rem; color: #64748b;">Belum Diantar</span>
+            <div id="admin-pending-orders" style="font-weight: bold; font-size: 1.1rem; color: #eab308;">0</div>
+        </div>
+    </div>
+
+    <!-- Daftar Pesanan -->
+    <div id="admin-orders-list">
+        <!-- Rincian pesanan diproses via JS -->
+    </div>
+</section>
     <script src="app.js"></script>
+    
 </body>
 </html>

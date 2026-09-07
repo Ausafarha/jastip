@@ -466,3 +466,122 @@ function closeImageModal() {
         modal.style.display = 'none';
     }
 }
+// --- MANAJEMEN PANEL ADMIN & PIN ---
+
+// 1. SET PIN KAMU DI SINI (Ganti '1234' dengan PIN rahasiamu)
+const MY_ADMIN_PIN = "676767";
+
+// Fungsi Buka Panel via Icon Gembok
+function openAdminPanel() {
+    const inputPin = prompt("Masukkan PIN Rahasia Admin:");
+    
+    if (inputPin === MY_ADMIN_PIN) {
+        const adminPanel = document.getElementById('admin-panel');
+        adminPanel.style.display = 'block';
+        renderAdminDashboard();
+        // Scroll otomatis ke panel admin
+        adminPanel.scrollIntoView({ behavior: 'smooth' });
+    } else if (inputPin !== null) {
+        alert("PIN Salah! Akses ditolak.");
+    }
+}
+
+// Fungsi Tutup Panel
+function closeAdminPanel() {
+    document.getElementById('admin-panel').style.display = 'none';
+}
+
+// --- FUNGSI MANAJEMEN CATATAN ---
+
+function getAdminOrders() {
+    return JSON.parse(localStorage.getItem('jastip_admin_orders')) || [];
+}
+
+function saveOrderToAdmin(order) {
+    const orders = getAdminOrders();
+    orders.unshift(order);
+    localStorage.setItem('jastip_admin_orders', JSON.stringify(orders));
+}
+
+function toggleOrderStatus(orderId) {
+    const orders = getAdminOrders();
+    const index = orders.findIndex(o => o.id === orderId);
+    if (index > -1) {
+        orders[index].status = orders[index].status === 'completed' ? 'pending' : 'completed';
+        localStorage.setItem('jastip_admin_orders', JSON.stringify(orders));
+        renderAdminDashboard();
+    }
+}
+
+function deleteAdminOrder(orderId) {
+    if (confirm("Hapus catatan pesanan ini?")) {
+        let orders = getAdminOrders();
+        orders = orders.filter(o => o.id !== orderId);
+        localStorage.setItem('jastip_admin_orders', JSON.stringify(orders));
+        renderAdminDashboard();
+    }
+}
+
+function clearAllAdminOrders() {
+    if (confirm("Yakin ingin menghapus SEMUA catatan pesanan?")) {
+        localStorage.removeItem('jastip_admin_orders');
+        renderAdminDashboard();
+    }
+}
+
+function renderAdminDashboard() {
+    const container = document.getElementById('admin-orders-list');
+    const totalBadge = document.getElementById('admin-total-orders');
+    const pendingBadge = document.getElementById('admin-pending-orders');
+
+    if (!container) return;
+
+    const orders = getAdminOrders();
+    const pendingCount = orders.filter(o => o.status === 'pending').length;
+
+    totalBadge.textContent = orders.length;
+    pendingBadge.textContent = pendingCount;
+
+    if (orders.length === 0) {
+        container.innerHTML = `<p style="text-align:center; color:#666; padding: 15px;">Belum ada catatan pesanan masuk.</p>`;
+        return;
+    }
+
+    let html = '';
+    orders.forEach(order => {
+        const isDone = order.status === 'completed';
+        const cardStyle = isDone ? 'background-color: #f0fdf4; border-left: 4px solid #22c55e;' : 'background-color: #fff; border-left: 4px solid #eab308;';
+        const titleStyle = isDone ? 'text-decoration: line-through; color: #15803d;' : 'color: #1e293b;';
+
+        html += `
+            <div style="padding: 12px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); ${cardStyle}">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <strong style="${titleStyle}">${order.customerName} (${order.date})</strong>
+                    <span style="font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; ${isDone ? 'background:#dcfce7;color:#166534;' : 'background:#fef9c3;color:#854d0e;'}">
+                        ${isDone ? 'Selesai' : 'Pending'}
+                    </span>
+                </div>
+                <p style="margin: 5px 0; font-size: 0.85rem; color: #475569;">📍 ${order.address}</p>
+                <p style="margin: 5px 0; font-size: 0.85rem; color: #475569;">💬 Catatan: <i>${order.notes}</i></p>
+                <div style="margin: 6px 0; font-size: 0.85rem;">
+                    <strong>Item:</strong>
+                    <ul style="margin: 2px 0 0 18px; padding: 0;">
+                        ${order.items.map(item => `<li>${item}</li>`).join('')}
+                    </ul>
+                </div>
+                <p style="margin: 5px 0; font-size: 0.85rem;">💰 Est: <strong>${order.totalEstimate}</strong></p>
+                
+                <div style="margin-top: 8px; display: flex; gap: 8px;">
+                    <button onclick="toggleOrderStatus(${order.id})" style="padding: 4px 10px; font-size: 0.75rem; cursor: pointer; border: none; border-radius: 4px; ${isDone ? 'background:#cbd5e1;color:#334155;' : 'background:#22c55e;color:#fff;'}">
+                        ${isDone ? '↩️ Batal Selesai' : '✅ Tandai Selesai'}
+                    </button>
+                    <button onclick="deleteAdminOrder(${order.id})" style="padding: 4px 10px; font-size: 0.75rem; background:#ef4444; color:#fff; border:none; border-radius:4px; cursor:pointer;">
+                        🗑️ Hapus
+                    </button>
+                </div>
+            </div>
+        `;
+    });
+
+    container.innerHTML = html;
+}
