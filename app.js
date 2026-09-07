@@ -346,7 +346,7 @@ function updateCartUI() {
 }
 
 /**
- * Handler Checkout Pesanan & Otomatis Bersihkan Keranjang
+ * Handler Checkout Pesanan & Simpan ke Catatan Admin
  */
 function handleCheckout(e) {
     e.preventDefault();
@@ -369,6 +369,7 @@ function handleCheckout(e) {
     let maxGrandTotal = 0;
     let hasMelon = false;
     let itemsText = "";
+    let itemsArray = [];
 
     cart.forEach((item, index) => {
         const product = productsData.find(p => p.id === item.id);
@@ -393,12 +394,29 @@ function handleCheckout(e) {
         }
 
         itemsText += `${index + 1}. *${item.name}*\n   • Qty: ${item.quantity}\n   • Est. Harga: ${priceText}\n`;
+        itemsArray.push(`${item.name} (${item.quantity}x)`);
     });
 
     const totalText = (minGrandTotal !== maxGrandTotal) 
         ? `${formatRupiah(minGrandTotal)} - ${formatRupiah(maxGrandTotal)}`
         : formatRupiah(minGrandTotal);
 
+    // 1. OLEH KARENA ITU: Buat Objek Pesanan Baru
+    const newOrder = {
+        id: Date.now(),
+        date: new Date().toLocaleString('id-ID', { dateStyle: 'short', timeStyle: 'short' }),
+        customerName: nameInput,
+        address: addressInput,
+        notes: notesInput || '-',
+        items: itemsArray,
+        totalEstimate: totalText,
+        status: 'pending'
+    };
+
+    // 2. SIMPAN DULU KE LOCALSTORAGE ADMIN (PENTING!)
+    saveOrderToAdmin(newOrder);
+
+    // 3. Rakit Format Pesan WhatsApp
     let message = `Halo Admin Jastip Bantarkawung, saya mau order:\n\n`;
     message += `📋 *DETAIL PESANAN:*\n${itemsText}\n`;
     message += `💰 *TOTAL ESTIMASI:* ${totalText}\n\n`;
@@ -413,18 +431,13 @@ function handleCheckout(e) {
 
     message += `📍 *LOKASI PENGIRIMAN:*\n(Mohon lampirkan Share Location / Titik Maps lokasi Rumah Anda di bawah pesan ini ya Kak 🙏)`;
 
-    // 1. Reset / Kosongkan Keranjang Belanja
+    // 4. Bersihkan Keranjang Belanja & Form Input
     cart = [];
     localStorage.removeItem('jastip_cart');
     updateCartUI();
-
-    // 2. Reset Form Input
     document.getElementById('checkout-form').reset();
 
-    // 3. Notifikasi Berhasil
-    alert("Pesanan berhasil dibuat! Keranjang Anda telah dikosongkan.\n\nAnda akan diarahkan ke WhatsApp untuk mengonfirmasi detail pesanan ke Admin.");
-
-    // 4. Buka WhatsApp
+    // 5. Direct ke WhatsApp
     const waUrl = `https://wa.me/${ADMIN_PHONE}?text=${encodeURIComponent(message)}`;
     window.open(waUrl, '_blank');
 }
