@@ -346,7 +346,7 @@ function updateCartUI() {
 }
 
 /**
- * Handler Checkout WhatsApp dengan Rentang Harga
+ * Handler Checkout Pesanan & Otomatis Bersihkan Keranjang
  */
 function handleCheckout(e) {
     e.preventDefault();
@@ -413,6 +413,18 @@ function handleCheckout(e) {
 
     message += `📍 *LOKASI PENGIRIMAN:*\n(Mohon lampirkan Share Location / Titik Maps lokasi Rumah Anda di bawah pesan ini ya Kak 🙏)`;
 
+    // 1. Reset / Kosongkan Keranjang Belanja
+    cart = [];
+    localStorage.removeItem('jastip_cart');
+    updateCartUI();
+
+    // 2. Reset Form Input
+    document.getElementById('checkout-form').reset();
+
+    // 3. Notifikasi Berhasil
+    alert("Pesanan berhasil dibuat! Keranjang Anda telah dikosongkan.\n\nAnda akan diarahkan ke WhatsApp untuk mengonfirmasi detail pesanan ke Admin.");
+
+    // 4. Buka WhatsApp
     const waUrl = `https://wa.me/${ADMIN_PHONE}?text=${encodeURIComponent(message)}`;
     window.open(waUrl, '_blank');
 }
