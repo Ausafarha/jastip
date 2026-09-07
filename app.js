@@ -479,41 +479,93 @@ function closeImageModal() {
         modal.style.display = 'none';
     }
 }
-// --- MANAJEMEN PANEL ADMIN & PIN ---
+// --- MANAJEMEN PANEL ADMIN MANUAL ---
 
-// 1. SET PIN KAMU DI SINI (Ganti '1234' dengan PIN rahasiamu)
-const MY_ADMIN_PIN = "676767";
+const MY_ADMIN_PIN = "676767"; // Ganti PIN kamu di sini
 
-// Fungsi Buka Panel via Icon Gembok
 function openAdminPanel() {
     const inputPin = prompt("Masukkan PIN Rahasia Admin:");
-    
     if (inputPin === MY_ADMIN_PIN) {
         const adminPanel = document.getElementById('admin-panel');
         adminPanel.style.display = 'block';
         renderAdminDashboard();
-        // Scroll otomatis ke panel admin
         adminPanel.scrollIntoView({ behavior: 'smooth' });
     } else if (inputPin !== null) {
         alert("PIN Salah! Akses ditolak.");
     }
 }
 
-// Fungsi Tutup Panel
 function closeAdminPanel() {
     document.getElementById('admin-panel').style.display = 'none';
 }
 
-// --- FUNGSI MANAJEMEN CATATAN ---
-
 function getAdminOrders() {
-    return JSON.parse(localStorage.getItem('jastip_admin_orders')) || [];
+    return JSON.parse(localStorage.getItem('jastip_admin_manual_orders')) || [];
 }
 
-function saveOrderToAdmin(order) {
+// 1. Simpan Otomatis dari Copas Teks WA
+function parseAndSaveWA() {
+    const pasteText = document.getElementById('admin-paste-input').value.trim();
+    if (!pasteText) {
+        alert("Silakan paste/tempel teks format WA terlebih dahulu!");
+        return;
+    }
+
+    // Ambil Nama Pembeli
+    const nameMatch = pasteText.match(/•\s*Nama:\s*(.*)/i) || pasteText.match(/Nama:\s*(.*)/i);
+    const customerName = nameMatch ? nameMatch[1].trim() : "Pelanggan WA";
+
+    // Ambil Alamat
+    const addressMatch = pasteText.match(/•\s*Patokan Alamat:\s*(.*)/i);
+    const address = addressMatch ? addressMatch[1].trim() : "-";
+
+    // Ambil Total Estimasi
+    const totalMatch = pasteText.match(/TOTAL ESTIMASI:\*\s*(.*)/i);
+    const totalEst = totalMatch ? totalMatch[1].trim() : "";
+
+    const newOrder = {
+        id: Date.now(),
+        date: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
+        name: customerName,
+        info: `📍 ${address} ${totalEst ? '| 💰 ' + totalEst : ''}`,
+        rawText: pasteText,
+        status: 'pending'
+    };
+
     const orders = getAdminOrders();
-    orders.unshift(order);
-    localStorage.setItem('jastip_admin_orders', JSON.stringify(orders));
+    orders.unshift(newOrder);
+    localStorage.setItem('jastip_admin_manual_orders', JSON.stringify(orders));
+
+    document.getElementById('admin-paste-input').value = '';
+    renderAdminDashboard();
+}
+
+// 2. Simpan Manual (Cuma Nama + Info)
+function saveManualOrder() {
+    const nameInput = document.getElementById('admin-manual-name').value.trim();
+    const infoInput = document.getElementById('admin-manual-info').value.trim();
+
+    if (!nameInput) {
+        alert("Nama Pelanggan harus diisi!");
+        return;
+    }
+
+    const newOrder = {
+        id: Date.now(),
+        date: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
+        name: nameInput,
+        info: infoInput || 'Pesanan Manual',
+        rawText: '',
+        status: 'pending'
+    };
+
+    const orders = getAdminOrders();
+    orders.unshift(newOrder);
+    localStorage.setItem('jastip_admin_manual_orders', JSON.stringify(orders));
+
+    document.getElementById('admin-manual-name').value = '';
+    document.getElementById('admin-manual-info').value = '';
+    renderAdminDashboard();
 }
 
 function toggleOrderStatus(orderId) {
@@ -521,27 +573,28 @@ function toggleOrderStatus(orderId) {
     const index = orders.findIndex(o => o.id === orderId);
     if (index > -1) {
         orders[index].status = orders[index].status === 'completed' ? 'pending' : 'completed';
-        localStorage.setItem('jastip_admin_orders', JSON.stringify(orders));
+        localStorage.setItem('jastip_admin_manual_orders', JSON.stringify(orders));
         renderAdminDashboard();
     }
 }
 
 function deleteAdminOrder(orderId) {
-    if (confirm("Hapus catatan pesanan ini?")) {
+    if (confirm("Hapus catatan ini?")) {
         let orders = getAdminOrders();
         orders = orders.filter(o => o.id !== orderId);
-        localStorage.setItem('jastip_admin_orders', JSON.stringify(orders));
+        localStorage.setItem('jastip_admin_manual_orders', JSON.stringify(orders));
         renderAdminDashboard();
     }
 }
 
 function clearAllAdminOrders() {
-    if (confirm("Yakin ingin menghapus SEMUA catatan pesanan?")) {
-        localStorage.removeItem('jastip_admin_orders');
+    if (confirm("Yakin hapus SEMUA catatan pesanan?")) {
+        localStorage.removeItem('jastip_admin_manual_orders');
         renderAdminDashboard();
     }
 }
 
+// Render Tampilan List Catatan Admin
 function renderAdminDashboard() {
     const container = document.getElementById('admin-orders-list');
     const totalBadge = document.getElementById('admin-total-orders');
@@ -556,7 +609,7 @@ function renderAdminDashboard() {
     pendingBadge.textContent = pendingCount;
 
     if (orders.length === 0) {
-        container.innerHTML = `<p style="text-align:center; color:#666; padding: 15px;">Belum ada catatan pesanan masuk.</p>`;
+        container.innerHTML = `<p style="text-align:center; color:#666; font-size: 0.85rem; padding: 10px;">Belum ada catatan.</p>`;
         return;
     }
 
@@ -564,31 +617,24 @@ function renderAdminDashboard() {
     orders.forEach(order => {
         const isDone = order.status === 'completed';
         const cardStyle = isDone ? 'background-color: #f0fdf4; border-left: 4px solid #22c55e;' : 'background-color: #fff; border-left: 4px solid #eab308;';
-        const titleStyle = isDone ? 'text-decoration: line-through; color: #15803d;' : 'color: #1e293b;';
+        const titleStyle = isDone ? 'text-decoration: line-through; color: #166534;' : 'color: #0f172a;';
 
         html += `
-            <div style="padding: 12px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); ${cardStyle}">
+            <div style="padding: 10px; margin-bottom: 8px; border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); ${cardStyle}">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <strong style="${titleStyle}">${order.customerName} (${order.date})</strong>
-                    <span style="font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; ${isDone ? 'background:#dcfce7;color:#166534;' : 'background:#fef9c3;color:#854d0e;'}">
+                    <strong style="font-size: 0.9rem; ${titleStyle}">👤 ${order.name} <small style="font-weight:normal; color:#64748b;">(${order.date})</small></strong>
+                    <span style="font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; ${isDone ? 'background:#dcfce7;color:#166534;' : 'background:#fef9c3;color:#854d0e;'}">
                         ${isDone ? 'Selesai' : 'Pending'}
                     </span>
                 </div>
-                <p style="margin: 5px 0; font-size: 0.85rem; color: #475569;">📍 ${order.address}</p>
-                <p style="margin: 5px 0; font-size: 0.85rem; color: #475569;">💬 Catatan: <i>${order.notes}</i></p>
-                <div style="margin: 6px 0; font-size: 0.85rem;">
-                    <strong>Item:</strong>
-                    <ul style="margin: 2px 0 0 18px; padding: 0;">
-                        ${order.items.map(item => `<li>${item}</li>`).join('')}
-                    </ul>
-                </div>
-                <p style="margin: 5px 0; font-size: 0.85rem;">💰 Est: <strong>${order.totalEstimate}</strong></p>
                 
-                <div style="margin-top: 8px; display: flex; gap: 8px;">
-                    <button onclick="toggleOrderStatus(${order.id})" style="padding: 4px 10px; font-size: 0.75rem; cursor: pointer; border: none; border-radius: 4px; ${isDone ? 'background:#cbd5e1;color:#334155;' : 'background:#22c55e;color:#fff;'}">
-                        ${isDone ? '↩️ Batal Selesai' : '✅ Tandai Selesai'}
+                <p style="margin: 4px 0; font-size: 0.8rem; color: #475569;">${order.info}</p>
+                
+                <div style="margin-top: 6px; display: flex; gap: 6px;">
+                    <button onclick="toggleOrderStatus(${order.id})" style="padding: 3px 8px; font-size: 0.75rem; cursor: pointer; border: none; border-radius: 4px; ${isDone ? 'background:#cbd5e1;color:#334155;' : 'background:#22c55e;color:#fff;'}">
+                        ${isDone ? '↩️ Batal' : '✅ Selesai'}
                     </button>
-                    <button onclick="deleteAdminOrder(${order.id})" style="padding: 4px 10px; font-size: 0.75rem; background:#ef4444; color:#fff; border:none; border-radius:4px; cursor:pointer;">
+                    <button onclick="deleteAdminOrder(${order.id})" style="padding: 3px 8px; font-size: 0.75rem; background:#ef4444; color:#fff; border:none; border-radius:4px; cursor:pointer;">
                         🗑️ Hapus
                     </button>
                 </div>
